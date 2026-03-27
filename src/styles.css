@@ -84,11 +84,44 @@ html, body {
   overflow: hidden;
   position: relative;
   background: #0f0f1a;
+  display: flex;
+  flex-direction: column;
+}
+
+#tileset-canvas-area {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
 }
 
 #tileset-canvas {
   display: block;
+  flex: 1;
+  min-width: 0;
   cursor: crosshair;
+}
+
+/* Tileset scrollbars */
+#tileset-vscroll,
+#tileset-hscroll {
+  flex-shrink: 0;
+  margin: 0;
+  padding: 0;
+  background: #0d1b2a;
+  accent-color: #4488cc;
+  cursor: default;
+}
+
+#tileset-vscroll {
+  writing-mode: vertical-lr;
+  width: 16px;
+  height: 100%;
+}
+
+#tileset-hscroll {
+  width: 100%;
+  height: 16px;
 }
 
 /* ── Map canvas ─────────────────────────────────────────────────────────────── */

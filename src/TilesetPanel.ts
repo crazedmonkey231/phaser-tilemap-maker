@@ -25,6 +25,10 @@ export class TilesetPanel {
   private scrollY = 0;
   private scale = 1;
 
+  // Scrollbar elements
+  private hScrollbar: HTMLInputElement | null = null;
+  private vScrollbar: HTMLInputElement | null = null;
+
   // Callbacks
   onTileSelected: ((tileId: number) => void) | null = null;
   onTilesetChanged: (() => void) | null = null;
@@ -124,11 +128,50 @@ export class TilesetPanel {
       // Zoom
       const delta = e.deltaY > 0 ? 0.9 : 1.1;
       this.scale = Math.max(0.2, Math.min(4, this.scale * delta));
+    } else if (e.shiftKey) {
+      // Horizontal scroll
+      this.scrollX -= e.deltaY;
     } else {
-      // Scroll
+      // Vertical scroll
       this.scrollY -= e.deltaY;
     }
+    this.clampScroll();
     this.render();
+  }
+
+  private clampScroll(): void {
+    if (!this.image) {
+      this.scrollX = 0;
+      this.scrollY = 0;
+      return;
+    }
+    const maxScrollX = Math.max(0, this.image.width * this.scale - this.canvas.width);
+    const maxScrollY = Math.max(0, this.image.height * this.scale - this.canvas.height);
+    this.scrollX = Math.min(0, Math.max(-maxScrollX, this.scrollX));
+    this.scrollY = Math.min(0, Math.max(-maxScrollY, this.scrollY));
+  }
+
+  attachScrollbars(hScroll: HTMLInputElement, vScroll: HTMLInputElement): void {
+    this.hScrollbar = hScroll;
+    this.vScrollbar = vScroll;
+    hScroll.addEventListener('input', () => {
+      this.scrollX = -parseInt(hScroll.value, 10);
+      this.render();
+    });
+    vScroll.addEventListener('input', () => {
+      this.scrollY = -parseInt(vScroll.value, 10);
+      this.render();
+    });
+  }
+
+  private updateScrollbars(): void {
+    if (!this.hScrollbar || !this.vScrollbar || !this.image) return;
+    const maxScrollX = Math.max(0, Math.round(this.image.width * this.scale - this.canvas.width));
+    const maxScrollY = Math.max(0, Math.round(this.image.height * this.scale - this.canvas.height));
+    this.hScrollbar.max = String(maxScrollX);
+    this.hScrollbar.value = String(Math.round(-this.scrollX));
+    this.vScrollbar.max = String(maxScrollY);
+    this.vScrollbar.value = String(Math.round(-this.scrollY));
   }
 
   private getTileAt(x: number, y: number): TileRect | null {
@@ -282,5 +325,6 @@ export class TilesetPanel {
     }
 
     this.ctx.restore();
+    this.updateScrollbars();
   }
 }
