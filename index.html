@@ -50,7 +50,11 @@
         <input type="file" id="image-file-input" accept="image/*" style="display:none" />
       </div>
       <div id="tileset-container">
-        <canvas id="tileset-canvas"></canvas>
+        <div id="tileset-canvas-area">
+          <canvas id="tileset-canvas"></canvas>
+          <input type="range" id="tileset-vscroll" min="0" max="0" value="0" title="Scroll vertically" />
+        </div>
+        <input type="range" id="tileset-hscroll" min="0" max="0" value="0" title="Scroll horizontally" />
       </div>
       <div class="panel-section">
         <p class="hint-text">
@@ -141,9 +145,10 @@
       <div class="panel-section">
         <div class="section-title">Controls</div>
         <ul class="controls-list">
-          <li>🖱 Left drag → pan tileset</li>
-          <li>🖱 Scroll → scroll tileset</li>
+          <li>🖱 Scroll → scroll tileset (vertical)</li>
+          <li>⇧+scroll → scroll tileset (horizontal)</li>
           <li>⌃+scroll → zoom tileset</li>
+          <li>Sliders → scroll tileset (H/V)</li>
           <li>Map: Scroll wheel → zoom</li>
           <li>Map: Alt+drag → pan</li>
           <li>Map: Right click → erase</li>

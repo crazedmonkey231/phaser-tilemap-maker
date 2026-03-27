@@ -34,6 +34,10 @@ const mapCanvas = document.getElementById('map-canvas') as HTMLCanvasElement;
 const tilesetPanel = new TilesetPanel(tilesetCanvas);
 const mapEditor = new MapEditor(mapCanvas, project);
 
+const tilesetHScroll = document.getElementById('tileset-hscroll') as HTMLInputElement;
+const tilesetVScroll = document.getElementById('tileset-vscroll') as HTMLInputElement;
+tilesetPanel.attachScrollbars(tilesetHScroll, tilesetVScroll);
+
 // ─── Tile property form ──────────────────────────────────────────────────────
 
 const tileNameInput = document.getElementById('tile-name') as HTMLInputElement;
@@ -109,9 +113,9 @@ mapEditor.onProjectChanged = () => {
 // ─── Resize canvases ─────────────────────────────────────────────────────────
 
 function resizeCanvases(): void {
-  const tilesetContainer = document.getElementById('tileset-container')!;
-  tilesetCanvas.width = tilesetContainer.clientWidth;
-  tilesetCanvas.height = tilesetContainer.clientHeight;
+  const tilesetCanvasArea = document.getElementById('tileset-canvas-area')!;
+  tilesetCanvas.width = tilesetCanvasArea.clientWidth - tilesetVScroll.offsetWidth;
+  tilesetCanvas.height = tilesetCanvasArea.clientHeight;
 
   const mapContainer = document.getElementById('map-container')!;
   mapCanvas.width = mapContainer.clientWidth;
