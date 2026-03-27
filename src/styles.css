@@ -1,0 +1,298 @@
+/* ── Reset & base ──────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  height: 100%;
+  overflow: hidden;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  font-size: 13px;
+  color: #e0e0e0;
+  background: #1e1e2e;
+}
+
+/* ── Toolbar ───────────────────────────────────────────────────────────────── */
+#toolbar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 42px;
+  padding: 0 10px;
+  background: #16213e;
+  border-bottom: 1px solid #0f3460;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+  overflow: hidden;
+}
+
+.toolbar-group {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.toolbar-group + .toolbar-group {
+  border-left: 1px solid #0f3460;
+  padding-left: 8px;
+}
+
+.app-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: #e94560;
+  white-space: nowrap;
+  padding-right: 6px;
+}
+
+.toolbar-status {
+  margin-left: auto;
+  font-size: 12px;
+  opacity: 0.85;
+}
+
+/* ── Main layout ───────────────────────────────────────────────────────────── */
+#main-layout {
+  display: flex;
+  height: calc(100vh - 42px);
+  overflow: hidden;
+}
+
+/* ── Side panels ───────────────────────────────────────────────────────────── */
+#tileset-panel,
+#props-panel {
+  width: 240px;
+  min-width: 200px;
+  max-width: 300px;
+  display: flex;
+  flex-direction: column;
+  background: #16213e;
+  border-right: 1px solid #0f3460;
+  overflow-y: auto;
+  overflow-x: hidden;
+  flex-shrink: 0;
+}
+
+#props-panel {
+  border-right: none;
+  border-left: 1px solid #0f3460;
+}
+
+/* ── Tileset canvas container ───────────────────────────────────────────────── */
+#tileset-container {
+  width: 100%;
+  height: 220px;
+  flex-shrink: 0;
+  overflow: hidden;
+  position: relative;
+  background: #0f0f1a;
+}
+
+#tileset-canvas {
+  display: block;
+  cursor: crosshair;
+}
+
+/* ── Map canvas ─────────────────────────────────────────────────────────────── */
+#map-container {
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+  background: #2a2a2a;
+}
+
+#map-canvas {
+  display: block;
+  cursor: crosshair;
+}
+
+/* ── Panel sections ─────────────────────────────────────────────────────────── */
+.panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 8px;
+  background: #0f3460;
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  flex-shrink: 0;
+}
+
+.panel-section {
+  padding: 8px;
+  border-bottom: 1px solid #0f3460;
+}
+
+.panel-section.flex-grow {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.section-title {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #7799bb;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.hint-text {
+  font-size: 11px;
+  color: #7799bb;
+  line-height: 1.5;
+}
+
+/* ── Property rows ──────────────────────────────────────────────────────────── */
+.prop-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 5px;
+}
+
+.prop-row label {
+  width: 44px;
+  font-size: 11px;
+  color: #99aacc;
+  flex-shrink: 0;
+}
+
+.prop-row input[type="text"],
+.prop-row input[type="number"] {
+  flex: 1;
+  padding: 3px 6px;
+  background: #0d1b2a;
+  border: 1px solid #2a4060;
+  border-radius: 3px;
+  color: #e0e0e0;
+  font-size: 12px;
+}
+
+.prop-row input:focus {
+  outline: none;
+  border-color: #4488cc;
+}
+
+.value-display {
+  font-size: 12px;
+  color: #aaccff;
+  font-family: monospace;
+}
+
+/* ── Buttons ────────────────────────────────────────────────────────────────── */
+button,
+label[role="button"] {
+  padding: 4px 10px;
+  background: #0f3460;
+  border: 1px solid #1a4a80;
+  border-radius: 4px;
+  color: #c8d8f0;
+  font-size: 12px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+button:hover,
+label[role="button"]:hover {
+  background: #1a4a80;
+  border-color: #4488cc;
+}
+
+button.active,
+label[role="button"].active {
+  background: #1a4a80;
+  border-color: #4488cc;
+  color: #ffffff;
+}
+
+.full-width-btn {
+  width: 100%;
+  margin-top: 4px;
+  padding: 5px;
+}
+
+.icon-btn {
+  padding: 2px 6px;
+  font-size: 11px;
+}
+
+/* ── Tile list ───────────────────────────────────────────────────────────────── */
+.tile-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.tile-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 3px;
+  width: 60px;
+  gap: 2px;
+  background: #0d1b2a;
+  border: 1px solid #2a4060;
+  border-radius: 4px;
+  font-size: 10px;
+  color: #99aacc;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.tile-btn:hover {
+  border-color: #4488cc;
+  background: #1a2a40;
+}
+
+.tile-btn.active {
+  border-color: #ff6600;
+  background: #2a1a00;
+  color: #ffaa66;
+}
+
+.tile-btn canvas {
+  image-rendering: pixelated;
+}
+
+.tile-btn span {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ── Layer list ─────────────────────────────────────────────────────────────── */
+.layer-item {
+  display: flex;
+  align-items: center;
+  padding: 4px 6px;
+  margin-bottom: 3px;
+  border-radius: 3px;
+  background: #0d1b2a;
+  border: 1px solid #2a4060;
+  font-size: 12px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.layer-item:hover {
+  background: #1a2a40;
+}
+
+.layer-item.active {
+  border-color: #4488cc;
+  background: #0f2a50;
+  color: #aaccff;
+}
+
+/* ── Controls list ───────────────────────────────────────────────────────────── */
+.controls-list {
+  list-style: none;
+  font-size: 11px;
+  color: #7799bb;
+  line-height: 1.8;
+}

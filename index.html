@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Phaser Tilemap Maker</title>
+  <link rel="stylesheet" href="/src/styles.css" />
+</head>
+<body>
+  <!-- ── Toolbar ── -->
+  <header id="toolbar">
+    <div class="toolbar-group">
+      <span class="app-title">🗺 Phaser Tilemap Maker</span>
+    </div>
+
+    <div class="toolbar-group">
+      <button id="new-project-btn" title="New project">New</button>
+      <button id="import-btn" title="Import a saved .tilemap.json">Import</button>
+    </div>
+
+    <div class="toolbar-group">
+      <button data-tool="place" class="active" title="Place tile (shortcut: P)">✏️ Place</button>
+      <button data-tool="erase" title="Erase tile (shortcut: E)">🗑️ Erase</button>
+      <button data-tool="fill" title="Fill area (shortcut: F)">🪣 Fill</button>
+    </div>
+
+    <div class="toolbar-group">
+      <button id="reset-view-btn" title="Reset map view">⊕ Reset View</button>
+    </div>
+
+    <div class="toolbar-group">
+      <button id="export-json-btn" title="Save project as .tilemap.json">💾 Save JSON</button>
+      <button id="export-phaser-btn" title="Export ready-to-use Phaser TileMap class (.ts)">📦 Phaser Class</button>
+      <button id="export-tiled-btn" title="Export Tiled-compatible JSON">🗺️ Tiled JSON</button>
+    </div>
+
+    <div class="toolbar-group toolbar-status">
+      <span id="status-bar">Ready</span>
+    </div>
+  </header>
+
+  <!-- ── Main layout ── -->
+  <div id="main-layout">
+
+    <!-- ── Left panel: Tileset ── -->
+    <aside id="tileset-panel">
+      <div class="panel-header">
+        <span>Tileset</span>
+        <label id="load-image-btn" for="image-file-input" title="Load tileset image" role="button" tabindex="0">Load Image</label>
+        <input type="file" id="image-file-input" accept="image/*" style="display:none" />
+      </div>
+      <div id="tileset-container">
+        <canvas id="tileset-canvas"></canvas>
+      </div>
+      <div class="panel-section">
+        <p class="hint-text">
+          Drag on the image to define tile rects.<br/>
+          Right-click a rect to delete it.
+        </p>
+      </div>
+
+      <!-- Tile rect properties -->
+      <div class="panel-section">
+        <div class="section-title">Selected Tile</div>
+        <p id="no-tile-selected" class="hint-text">Click a tile rect to select it.</p>
+        <div id="tile-props" style="display:none">
+          <div class="prop-row">
+            <label>ID</label>
+            <span id="tile-id-display" class="value-display">–</span>
+          </div>
+          <div class="prop-row">
+            <label for="tile-name">Name</label>
+            <input id="tile-name" type="text" />
+          </div>
+          <div class="prop-row">
+            <label for="tile-x">X</label>
+            <input id="tile-x" type="number" min="0" />
+          </div>
+          <div class="prop-row">
+            <label for="tile-y">Y</label>
+            <input id="tile-y" type="number" min="0" />
+          </div>
+          <div class="prop-row">
+            <label for="tile-w">Width</label>
+            <input id="tile-w" type="number" min="1" />
+          </div>
+          <div class="prop-row">
+            <label for="tile-h">Height</label>
+            <input id="tile-h" type="number" min="1" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Tile picker list -->
+      <div class="panel-section flex-grow">
+        <div class="section-title">Tile Picker</div>
+        <div id="tile-list" class="tile-list"></div>
+      </div>
+    </aside>
+
+    <!-- ── Center: Map canvas ── -->
+    <main id="map-container">
+      <canvas id="map-canvas"></canvas>
+    </main>
+
+    <!-- ── Right panel: Map properties / Layers ── -->
+    <aside id="props-panel">
+
+      <!-- Map config -->
+      <div class="panel-section">
+        <div class="section-title">Map Config</div>
+        <div class="prop-row">
+          <label for="map-width">Cols</label>
+          <input id="map-width" type="number" min="1" max="200" value="20" />
+        </div>
+        <div class="prop-row">
+          <label for="map-height">Rows</label>
+          <input id="map-height" type="number" min="1" max="200" value="15" />
+        </div>
+        <div class="prop-row">
+          <label for="tile-width">TileW</label>
+          <input id="tile-width" type="number" min="1" value="32" />
+        </div>
+        <div class="prop-row">
+          <label for="tile-height">TileH</label>
+          <input id="tile-height" type="number" min="1" value="32" />
+        </div>
+        <button id="apply-config-btn" class="full-width-btn">Apply</button>
+      </div>
+
+      <!-- Layers -->
+      <div class="panel-section flex-grow">
+        <div class="section-title">
+          Layers
+          <button id="add-layer-btn" class="icon-btn" title="Add layer">＋</button>
+        </div>
+        <div id="layer-list"></div>
+      </div>
+
+      <!-- Controls reference -->
+      <div class="panel-section">
+        <div class="section-title">Controls</div>
+        <ul class="controls-list">
+          <li>🖱 Left drag → pan tileset</li>
+          <li>🖱 Scroll → scroll tileset</li>
+          <li>⌃+scroll → zoom tileset</li>
+          <li>Map: Scroll wheel → zoom</li>
+          <li>Map: Alt+drag → pan</li>
+          <li>Map: Right click → erase</li>
+        </ul>
+      </div>
+
+    </aside>
+  </div>
+
+  <script type="module" src="/src/main.ts"></script>
+</body>
+</html>
